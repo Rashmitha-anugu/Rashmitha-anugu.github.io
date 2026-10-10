@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rashmitha Anugu, Software Engineer</title>
+<meta name="description" content="Backend software engineer building event-driven Java and Kafka systems for high-volume transactions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF0F3; --surface:#FFFFFF; --ink:#16202E; --muted:#56657A; --line:#CBD3DD;
+  --match:#1E7550; --match-bg:#DDEFE6; --break:#A3570B; --break-bg:#F8E8D2; --link:#1F4F8F;
+  --sans:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121821; --surface:#1A2230; --ink:#E6EBF1; --muted:#9AA8BA; --line:#2C3747;
+    --match:#5CC795; --match-bg:#17352A; --break:#E8A55A; --break-bg:#3A2A16; --link:#8DB6F0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121821; --surface:#1A2230; --ink:#E6EBF1; --muted:#9AA8BA; --line:#2C3747;
+  --match:#5CC795; --match-bg:#17352A; --break:#E8A55A; --break-bg:#3A2A16; --link:#8DB6F0;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:2px}
+img{max-width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* nav */
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:16px;flex-wrap:wrap}
+nav .me{font-weight:700;text-decoration:none;color:var(--ink)}
+nav ul{list-style:none;margin:0;padding:0;display:flex;gap:22px;flex-wrap:wrap}
+nav ul a{color:var(--muted);text-decoration:none;font-size:15px}
+nav ul a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding:56px 0 72px}
+.hero h1{font-size:clamp(44px,6.4vw,76px);line-height:.98;letter-spacing:-.025em;font-weight:800;margin:0 0 22px}
+.hero p.lede{font-size:20px;line-height:1.5;color:var(--muted);max-width:30em;margin:0 0 28px}
+.hero p.lede strong{color:var(--ink);font-weight:600}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 18px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid var(--ink)}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.ghost{color:var(--ink)}
+
+/* live reconciliation strip */
+.recon{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 10px;font-family:var(--mono);font-size:13px}
+.recon-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--sans);margin-bottom:12px}
+.recon-head h2{font-size:15px;margin:0;font-weight:600}
+.recon-head span{font-size:13px;color:var(--muted)}
+.cols,.row{display:grid;grid-template-columns:1.25fr .9fr .9fr 1.5fr;gap:8px;align-items:center}
+.cols{color:var(--muted);font-family:var(--sans);font-size:12px;padding:0 6px 6px;border-bottom:1px solid var(--line)}
+.rows{min-height:258px}
+.row{padding:8px 6px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .amt{text-align:right}
+.cols span:nth-child(2),.cols span:nth-child(3){text-align:right}
+.tag{justify-self:start;padding:2px 8px;border-radius:5px;font-size:12px;white-space:nowrap}
+.tag.ok{background:var(--match-bg);color:var(--match)}
+.tag.bad{background:var(--break-bg);color:var(--break)}
+.row.new{animation:in .45s ease-out}
+@keyframes in{from{background:var(--match-bg)}to{background:transparent}}
+.row.new.isbreak{animation:inb .9s ease-out}
+@keyframes inb{from{background:var(--break-bg)}to{background:transparent}}
+.recon-foot{font-family:var(--sans);font-size:13px;color:var(--muted);padding:10px 6px 4px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.recon-foot b{color:var(--ink);font-weight:600}
+
+/* sections */
+section{padding:64px 0;border-top:1px solid var(--line)}
+.sec{display:grid;grid-template-columns:220px 1fr;gap:40px}
+.sec > h2{font-size:24px;letter-spacing:-.01em;margin:0;line-height:1.2}
+.body{max-width:720px}
+.body p{margin:0 0 16px}
+
+/* experience */
+.job{padding:0 0 30px;margin:0 0 30px;border-bottom:1px solid var(--line)}
+.job:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.job-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
+.job h3{font-size:20px;margin:0}
+.job .when{color:var(--muted);font-size:15px;white-space:nowrap}
+.job .role{color:var(--muted);margin:2px 0 12px}
+.job .proj{font-weight:600;margin:0 0 6px}
+.job ul{margin:0 0 12px;padding-left:20px}
+.job li{margin:0 0 6px}
+.figs{display:flex;flex-wrap:wrap;gap:8px 22px;margin:4px 0 14px;padding:0;list-style:none}
+.figs li{font-size:15px;color:var(--muted)}
+.figs b{color:var(--ink);font-size:19px;font-weight:700;margin-right:4px}
+details{margin-top:6px}
+summary{cursor:pointer;color:var(--link);font-weight:600;font-size:15px;list-style:none;display:inline-flex;align-items:center;gap:6px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:14px;font-weight:700}
+details[open] summary::before{content:"\2013"}
+details ul{margin-top:12px}
+.stack{font-size:14px;color:var(--muted);margin:10px 0 0}
+
+/* project */
+.feature{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:30px}
+.feature h3{font-size:26px;letter-spacing:-.015em;margin:0 0 6px;line-height:1.2}
+.feature .sub{color:var(--muted);margin:0 0 22px}
+.pipeline{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 26px;padding:0;list-style:none}
+.pipeline li{padding:6px 11px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:var(--bg)}
+.pipeline li.arrow{border:0;background:none;padding:0 2px;color:var(--muted)}
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:0 0 26px}
+.results div{border-left:3px solid var(--match);padding:2px 0 2px 14px}
+.results b{display:block;font-size:30px;line-height:1.15;letter-spacing:-.02em}
+.results span{font-size:14px;color:var(--muted)}
+.tablewrap{overflow-x:auto;margin:0 0 24px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:13px;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td code{font-family:var(--mono);font-size:13px}
+.feature h4{font-size:17px;margin:22px 0 10px}
+.feature ul{padding-left:20px;margin:0}
+.feature li{margin:0 0 8px}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 36px}
+.skills h3{font-size:15px;margin:0 0 4px}
+.skills p{margin:0;color:var(--muted);font-size:15px}
+
+/* contact */
+.contact h2.big{font-size:clamp(32px,4.4vw,48px);letter-spacing:-.02em;line-height:1.1;margin:0 0 16px}
+.contact p{color:var(--muted);max-width:34em}
+footer{padding:28px 0 40px;color:var(--muted);font-size:14px}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:40px;padding:32px 0 56px}
+  .sec{grid-template-columns:1fr;gap:18px}
+  .results{grid-template-columns:1fr}
+  .skills{grid-template-columns:1fr}
+  .feature{padding:22px}
+}
+@media (max-width:480px){
+  .cols,.row{grid-template-columns:1.2fr .9fr 1.3fr}
+  .cols span:nth-child(3),.row .settled{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="me" href="#top">Rashmitha Anugu</a>
+    <ul>
+      <li><a href="#work">Experience</a></li>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <h1>Rashmitha Anugu</h1>
+      <p class="lede"><strong>Backend software engineer</strong> with 3+ years building Java, Spring Boot, and Kafka services on AWS. I work on systems where every transaction has to land exactly once, fast, and in the right order.</p>
+      <div class="actions">
+        <a class="btn primary" href="#project">See the payments project</a>
+        <a class="btn ghost" href="mailto:anugurashmitha4@gmail.com">Email me</a>
+      </div>
+    </div>
+
+    <div class="recon" aria-labelledby="recon-title">
+      <div class="recon-head">
+        <h2 id="recon-title">Ledger vs. processor settlement</h2>
+        <span>simulated, like my reconciliation pipeline</span>
+      </div>
+      <div class="cols" aria-hidden="true"><span>Transaction</span><span>Ledger</span><span>Settled</span><span>Result</span></div>
+      <div class="rows" id="rows" aria-live="off"></div>
+      <div class="recon-foot">
+        <span>Checked <b id="n-checked">0</b></span>
+        <span>Breaks caught <b id="n-breaks">0</b></span>
+        <span>At risk <b id="n-risk">$0.00</b></span>
+      </div>
+    </div>
+  </header>
+</div>
+
+<section id="about">
+  <div class="wrap sec">
+    <h2>About</h2>
+    <div class="body">
+      <p>I design and run RESTful microservices and event-driven pipelines: Kafka streams that process over a million transactions a day with sub-second latency, Redis caching that takes pressure off databases, and JVM and thread-pool tuning that keeps services steady when traffic triples.</p>
+      <p>I've built in healthcare and transaction analytics, and I'm moving deeper into payments. Outside work, I built a change data capture and reconciliation warehouse that proves what a ledger charged matches what the processor settled.</p>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap sec">
+    <h2>Experience</h2>
+    <div class="body">
+
+      <article class="job">
+        <div class="job-top"><h3>Hill Physicians Medical Group</h3><span class="when">Oct 2025 to present</span></div>
+        <p class="role">Software Developer</p>
+        <p class="proj">Member care navigation and provider search platform</p>
+        <ul class="figs"><li><b>10K+</b>concurrent members served</li><li><b>~20%</b>fewer unauthorized access attempts</li></ul>
+        <ul>
+          <li>Built Java and Spring Boot microservices for provider search, care program recommendations, and member resources.</li>
+          <li>Ran event-driven services on Kafka that process member and healthcare events in real time to personalize care navigation.</li>
+          <li>Kept responses fast under load with L1/L2 Redis caching, JVM tuning, and concurrent endpoints on tuned thread pools.</li>
+        </ul>
+        <details>
+          <summary>More detail</summary>
+          <ul>
+            <li>Modeled provider, specialty, location, network, and care program data with Spring Data JPA and Hibernate on Amazon RDS.</li>
+            <li>Designed Kafka partitioning for ordered per-member processing, with idempotent consumers, retry topics, and dead-letter queues.</li>
+            <li>Deployed on Docker, Kubernetes, and AWS (EC2, ECS) with health checks and rolling updates; monitored latency, errors, and consumer lag in CloudWatch.</li>
+            <li>Secured APIs with OAuth2/JWT through Keycloak and role-based access control for members, care teams, and admins.</li>
+            <li>Gated releases with JUnit, Mockito, and Postman suites in CI/CD.</li>
+          </ul>
+        </details>
+        <p class="stack">Java, Spring Boot, Kafka, Redis, Amazon RDS, Docker, Kubernetes, AWS, Keycloak, CloudWatch</p>
+      </article>
+
+      <article class="job">
+        <div class="job-top"><h3>Cummins</h3><span class="when">Aug 2024 to Sep 2025</span></div>
+        <p class="role">Software Developer</p>
+        <p class="proj">Real-time transaction analytics platform</p>
+        <ul class="figs"><li><b>1.2M+</b>transactions a day</li><li><b>35%</b>less database load</li><li><b>3x</b>peak traffic absorbed</li><li><b>99%</b>categorization accuracy</li></ul>
+        <ul>
+          <li>Built a high-throughput Spring Boot REST API serving real-time transaction data and spending insights.</li>
+          <li>Processed 1.2M+ daily transactions through Kafka, keeping analytics in sync with sub-second latency.</li>
+          <li>Integrated a rule-based engine that maps raw merchant data to categories with 99% accuracy.</li>
+        </ul>
+        <details>
+          <summary>More detail</summary>
+          <ul>
+            <li>Partitioned Kafka topics by account to preserve ordering, with idempotent processing and dead-letter topics for bad or duplicate records.</li>
+            <li>Built aggregation services for daily, weekly, and monthly spending summaries and category trends.</li>
+            <li>Cut database load by 35% with L1/L2 Redis caching and sped up UI data retrieval by 30%.</li>
+            <li>Absorbed 3x traffic surges at month-end and holidays through JVM, GC, connection pool, and thread pool tuning, validated with JMeter.</li>
+            <li>Provisioned AWS infrastructure with Docker and Terraform; automated builds and tests with Jenkins and Maven.</li>
+          </ul>
+        </details>
+        <p class="stack">Java, Spring Boot, Kafka, Redis, AWS, Terraform, Docker, Jenkins, JMeter</p>
+      </article>
+
+      <article class="job">
+        <div class="job-top"><h3>Coforge</h3><span class="when">Jul 2021 to Nov 2022</span></div>
+        <p class="role">Associate Software Engineer</p>
+        <p class="proj">Local community networking platform</p>
+        <ul class="figs"><li><b>5K+</b>events a minute</li><li><b>30%</b>faster scaling at peak</li></ul>
+        <ul>
+          <li>Built Spring Boot APIs for real-time chat, posts, and user interactions for 10K+ active users.</li>
+          <li>Split the platform into chat, posts, notifications, and rewards services, containerized with Docker.</li>
+          <li>Delivered real-time updates and location-based posts through Kafka with low latency.</li>
+        </ul>
+        <details>
+          <summary>More detail</summary>
+          <ul>
+            <li>Secured service-to-service calls with Keycloak and JWT.</li>
+            <li>Added rate limiting to the rewards system, reducing misuse and improving reliability by about 20%.</li>
+            <li>Wrote JUnit and Mockito tests and took part in Agile ceremonies and code reviews.</li>
+          </ul>
+        </details>
+        <p class="stack">Java, Spring Boot, Hibernate, Kafka, Docker, Keycloak, JUnit</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="project">
+  <div class="wrap sec">
+    <h2>Project</h2>
+    <div class="body">
+      <article class="feature">
+        <h3>Payments ledger CDC and reconciliation warehouse</h3>
+        <p class="sub">Every day a payments company has to prove that what its ledger charged matches what the card processor settled. This pipeline streams every ledger change into Snowflake and flags each mismatch before it becomes lost revenue or an audit finding.</p>
+
+        <ol class="pipeline" aria-label="Pipeline stages">
+          <li>Postgres</li><li class="arrow" aria-hidden="true">›</li>
+          <li>Debezium</li><li class="arrow" aria-hidden="true">›</li>
+          <li>Kafka</li><li class="arrow" aria-hidden="true">›</li>
+          <li>S3</li><li class="arrow" aria-hidden="true">›</li>
+          <li>Snowpipe</li><li class="arrow" aria-hidden="true">›</li>
+          <li>dbt in Snowflake</li><li class="arrow" aria-hidden="true">›</li>
+          <li>Airflow daily check</li>
+        </ol>
+
+        <div class="results">
+          <div><b>703 of 703</b><span>injected breaks detected over 8 days</span></div>
+          <div><b>$35,639</b><span>revenue at risk flagged</span></div>
+          <div><b>33 of 33</b><span>dbt models and tests passing</span></div>
+        </div>
+
+        <h4>What it catches</h4>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Break</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>MISSING_SETTLEMENT</code></td><td>The ledger captured it, the processor never settled it</td></tr>
+              <tr><td><code>AMOUNT_MISMATCH</code></td><td>Settled for a different amount</td></tr>
+              <tr><td><code>DUPLICATE_SETTLEMENT</code></td><td>Settled more than once</td></tr>
+              <tr><td><code>ORPHAN_SETTLEMENT</code></td><td>The processor settled something the ledger never saw</td></tr>
+              <tr><td><code>STATUS_MISMATCH</code></td><td>The ledger says failed, the processor settled it</td></tr>
+              <tr><td><code>AWAITING_SETTLEMENT</code></td><td>Captured today; the T+1 file isn't due yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Design decisions</h4>
+        <ul>
+          <li><strong>Ordered by log sequence number.</strong> Postgres LSN is the only ordering guaranteed to match commit order; timestamps and arrival times aren't.</li>
+          <li><strong>Idempotent merges.</strong> An incoming row merges only if its LSN is newer, so late or replayed files can never roll a transaction backwards.</li>
+          <li><strong>At-least-once, everywhere.</strong> Every model deduplicates on key and LSN, which trades exactly-once for one-minute freshness without risk.</li>
+          <li><strong>Deletes kept for audit.</strong> Hard deletes become soft deletes with the full row preserved; batch extracts would miss them entirely.</li>
+          <li><strong>A contract on the finance model.</strong> Changing the reconciliation table's columns fails the build instead of quietly breaking reports.</li>
+          <li><strong>Least privilege.</strong> Terraform provisions write-only and read-only roles and a key-pair-only service user.</li>
+        </ul>
+
+        <p class="stack">PostgreSQL, Debezium, Kafka, Kafka Connect, AWS S3 and IAM, Snowflake, Snowpipe, dbt, Airflow, Terraform, Python, pytest, GitHub Actions</p>
+        <p style="margin:18px 0 0"><a class="btn ghost" href="https://github.com/Rashmitha-anugu/payments-cdc-recon" target="_blank" rel="noopener">View the code on GitHub</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap sec">
+    <h2>Skills</h2>
+    <div class="body skills">
+      <div><h3>Languages and frameworks</h3><p>Java, Python, Spring Boot, Spring MVC, Spring Security, Spring Data JPA, WebFlux, Hibernate</p></div>
+      <div><h3>Messaging and APIs</h3><p>Apache Kafka, Kafka Streams, RabbitMQ, REST, gRPC, GraphQL, OpenAPI</p></div>
+      <div><h3>Distributed systems</h3><p>Microservices, event-driven architecture, domain-driven design, Redis caching, JVM and GC tuning, concurrency</p></div>
+      <div><h3>Data and payments</h3><p>PostgreSQL, change data capture, Snowflake, dbt, Airflow, reconciliation, idempotent processing</p></div>
+      <div><h3>Cloud and DevOps</h3><p>AWS (EC2, ECS, EKS, Lambda, S3, RDS), Docker, Kubernetes, Terraform, Jenkins, GitHub Actions</p></div>
+      <div><h3>Quality, security, observability</h3><p>JUnit, Mockito, JMeter, TDD, OAuth2, JWT, Keycloak, RBAC, CloudWatch, Prometheus, Grafana</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap sec">
+    <h2>Education</h2>
+    <div class="body">
+      <p><strong>M.S., Project Management</strong>, Indiana Wesleyan University</p>
+      <p><strong>B.Tech., Information Technology</strong>, Vignan Institute of Technology and Science, India</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap sec">
+    <h2>Contact</h2>
+    <div class="body">
+      <h2 class="big">Hiring for backend or payments engineers?</h2>
+      <p>I'm based in California and open to software engineering roles in payments, fintech, and data-heavy backend teams.</p>
+      <div class="actions">
+        <a class="btn primary" href="mailto:anugurashmitha4@gmail.com">anugurashmitha4@gmail.com</a>
+        <a class="btn ghost" href="https://github.com/Rashmitha-anugu" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><footer>Rashmitha Anugu, Software Engineer, California</footer></div>
+
+<script>
+(function(){
+  var rowsEl=document.getElementById('rows');
+  var nC=document.getElementById('n-checked'),nB=document.getElementById('n-breaks'),nR=document.getElementById('n-risk');
+  var checked=0,breaks=0,risk=0,MAX=6;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function hex(n){var s='';for(var i=0;i<n;i++)s+='0123456789abcdef'[Math.floor(Math.random()*16)];return s}
+  function money(v){return '$'+v.toFixed(2)}
+  function next(){
+    var amt=Math.round((5+Math.random()*240)*100)/100, r=Math.random(), led=money(amt), set, tag, bad=true, atRisk=0;
+    if(r<0.70){set=led;tag='Matched';bad=false}
+    else if(r<0.78){set='pending';tag='Awaiting T+1';bad=false}
+    else if(r<0.84){set='none';tag='Missing settlement';atRisk=amt}
+    else if(r<0.90){var d=Math.round((Math.random()*8+0.5)*100)/100;set=money(amt-d);tag='Amount mismatch';atRisk=d}
+    else if(r<0.95){set=money(amt)+' x2';tag='Duplicate';atRisk=amt}
+    else {led='none';set=money(amt);tag='Orphan settlement';atRisk=amt}
+    return {id:'txn_'+hex(6),led:led,set:set,tag:tag,bad:bad,risk:atRisk};
+  }
+  function add(t,animate){
+    checked++; if(t.bad){breaks++;risk+=t.risk}
+    var row=document.createElement('div');
+    row.className='row'+(animate?' new':'')+(animate&&t.bad?' isbreak':'');
+    row.innerHTML='<span>'+t.id+'</span><span class="amt">'+t.led+'</span><span class="amt settled">'+t.set+'</span><span class="tag '+(t.bad?'bad':'ok')+'">'+t.tag+'</span>';
+    rowsEl.insertBefore(row,rowsEl.firstChild);
+    while(rowsEl.children.length>MAX)rowsEl.removeChild(rowsEl.lastChild);
+    nC.textContent=checked.toLocaleString(); nB.textContent=breaks.toLocaleString();
+    nR.textContent='$'+risk.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  for(var i=0;i<MAX;i++)add(next(),false);
+  if(!reduce){
+    var timer=setInterval(function(){add(next(),true)},1400);
+    document.addEventListener('visibilitychange',function(){
+      if(document.hidden){clearInterval(timer);timer=null}
+      else if(!timer){timer=setInterval(function(){add(next(),true)},1400)}
+    });
+  }
+})();
+</script>
+</body>
+</html>
